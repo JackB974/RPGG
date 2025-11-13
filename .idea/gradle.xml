@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/2D_Game/2D_Game" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/2D_Game/2D_Game" />
+            <option value="$PROJECT_DIR$/2D_Game/2D_Game/core" />
+            <option value="$PROJECT_DIR$/2D_Game/2D_Game/lwjgl3" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
