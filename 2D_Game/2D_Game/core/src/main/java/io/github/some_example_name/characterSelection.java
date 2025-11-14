@@ -18,41 +18,42 @@ public class characterSelection implements Screen {
     Texture gamerGuyBtn;
 
 
-    //mage btn
-    int classicMageBtnX = 25;
-    int classicMageBtnY = 50;
-    int classicMageBtnW = 250;
-    int classicMageBtnH = 200;
+    // mage btn
+    int classicMageBtnX = 50;
+    int classicMageBtnY = 75;
+    int classicMageBtnW = 500;
+    int classicMageBtnH = 300;
 
-    //mage char
-    int mageX = 25;
-    int mageY = 50;
-    int mageW = 250;
-    int mageH = 200;
+    // mage
+    int mageX = 50;
+    int mageY = 75;
+    int mageW = 500;
+    int mageH = 300;
 
-    //GG btn
-    int gamerGuyBtnX = 250;
-    int gamerGuyBtnY = 40;
-    int gamerGuyBtnW = 250;
-    int gamerGuyBtnH = 200;
+    // gamerGuy btn
+    int gamerGuyBtnX = 500;
+    int gamerGuyBtnY = 60;
+    int gamerGuyBtnW = 500;
+    int gamerGuyBtnH = 300;
 
-    //gg char
-    int gamerGuyX = 250;
-    int gamerGuyY = 40;
-    int gamerGuyW = 250;
-    int gamerGuyH = 200;
+    // gamerGuy
+    int gamerGuyX = 500;
+    int gamerGuyY = 60;
+    int gamerGuyW = 500;
+    int gamerGuyH = 300;
 
-    // selectionbtn bfsmg
-    int bfsmgBtnX = 450;
-    int bfsmgBtnY = 50;
-    int bfsmgBtnW = 250;
-    int bfsmgBtnH = 200;
+    // bfsmg btn
+    int bfsmgBtnX = 900;
+    int bfsmgBtnY = 75;
+    int bfsmgBtnW = 500;
+    int bfsmgBtnH = 300;
 
-    //character bfsmg
-    int bfsmgX = 450;
-    int bfsmgY = 50;
-    int bfsmgW = 250;
-    int bfsmgH = 200;
+    // bfsmg
+    int bfsmgX = 900;
+    int bfsmgY = 75;
+    int bfsmgW = 500;
+    int bfsmgH = 300;
+
 
     MainGame game;
 

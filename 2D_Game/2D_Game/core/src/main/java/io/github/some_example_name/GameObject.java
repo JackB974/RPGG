@@ -1,5 +1,6 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -25,6 +26,17 @@ public abstract class GameObject {
     public void update(float delta) {
         posX += (int) (velocityX * delta);
         posY += (int) (velocityY * delta);
+        //Clamping
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
+        //right side
+        if (posX + width > screenWidth){
+            posX = screenWidth - width;
+        }
+        //left side ==>2D physic left is always 0
+        if (posX < 0) posX = 0;
+
+
     }
 
     public void render(SpriteBatch batch) {

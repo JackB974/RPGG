@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import static com.badlogic.gdx.Input.Keys;
+import static jdk.jfr.internal.consumer.EventLog.update;
+
 public class GameLogic implements Screen{
     SpriteBatch batch;
     Texture background;
@@ -14,6 +17,7 @@ public class GameLogic implements Screen{
     Player player;
     Ennemies basicEnnemy;
     Ennemies flyingEnnemy;
+    Ennemies Boss;
 
     public GameLogic(MainGame game, String selectedCharacter){
         this.game = game;
@@ -31,16 +35,36 @@ public class GameLogic implements Screen{
         else if (selectedCharacter.equals("gamerGuy")) {
             player = new GamerGuy();
         }
+
         else if (selectedCharacter.equals("classicMage")) {
             player = new ClassicMage();
         }
         basicEnnemy = new BasicEnnemies();
         flyingEnnemy = new FlyingEnnemies();
+        Boss = new Boss();
+    }
+    private void update(float delta) {
+        if(Gdx.input.isKeyPressed(Keys.D)){
+            player.moveRight();
+        }
+        else if(Gdx.input.isKeyPressed(Keys.A)){
+            player.moveLeft();
+        }
+       // else if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+        //    player.jump();
+        //} ==> need Gravity
+        else{
+            player.stopMoving();
+        }
+        player.update(delta);
+        basicEnnemy.update(delta);
 
     }
 
     @Override
-    public void render(float v) {
+    public void render(float delta) {
+        update(delta);
+
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -49,8 +73,11 @@ public class GameLogic implements Screen{
         batch.draw(player.getTexture(), player.getX(), player.getY(), player.getWidth(), player.getHeight());
         batch.draw(basicEnnemy.getTexture(), basicEnnemy.getX(), basicEnnemy.getY(), basicEnnemy.getWidth(), basicEnnemy.getHeight());
         batch.draw(flyingEnnemy.getTexture(), flyingEnnemy.getX(), flyingEnnemy.getY(), flyingEnnemy.getWidth(), flyingEnnemy.getHeight());
+        batch.draw(Boss.getTexture(), Boss.getX(), Boss.getY(), Boss.getWidth(), Boss.getHeight());
         batch.end();
     }
+
+
 
     @Override
     public void resize(int width,int height) {}

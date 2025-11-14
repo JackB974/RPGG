@@ -17,30 +17,30 @@ public class MainScreen implements Screen {
     Texture bfsmg;
     Texture title;
 
-    int titleX = 150;
-    int titleY = 400;
-    int titleW = 300;
-    int titleH = 80;
+    int titleX = 300;
+    int titleY = 600;
+    int titleW = 600;
+    int titleH = 120;
 
-    int btnX = 200;
-    int btnY = 250;
-    int btnW = 200;
-    int btnH = 80;
+    int btnX = 400;
+    int btnY = 375;
+    int btnW = 400;
+    int btnH = 120;
 
-    int mageX = 100;
-    int mageY = 100;
-    int mageW = 100;
-    int mageH = 80;
+    int mageX = 200;
+    int mageY = 150;
+    int mageW = 200;
+    int mageH = 120;
 
-    int gamerGuyX = 250;
-    int gamerGuyY = 100;
-    int gamerGuyW = 100;
-    int gamerGuyH = 80;
+    int gamerGuyX = 500;
+    int gamerGuyY = 150;
+    int gamerGuyW = 200;
+    int gamerGuyH = 120;
 
-    int bfsmgX = 400;
-    int bfsmgY = 100;
-    int bfsmgW = 100;
-    int bfsmgH = 80;
+    int bfsmgX = 800;
+    int bfsmgY = 150;
+    int bfsmgW = 200;
+    int bfsmgH = 120;
 
 
     MainGame game;
@@ -80,7 +80,6 @@ public class MainScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-
 
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(title,     titleX,     titleY,     titleW,     titleH);
