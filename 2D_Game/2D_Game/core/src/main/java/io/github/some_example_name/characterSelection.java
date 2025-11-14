@@ -81,25 +81,21 @@ public class characterSelection implements Screen {
                 // BFSMg selection btn
                 if(screenX >= bfsmgBtnX && screenX <= bfsmgBtnX+bfsmgBtnW &&
                     fixedY >= bfsmgBtnY && fixedY <= bfsmgBtnY+bfsmgBtnH) {
-
-                    System.out.println("You are a big fucking space marine guy!");
-                    game.setScreen(new Level1(game));
+                    game.setScreen(new GameLogic(game, "bfsmg"));
                     return true;
                 }
 
                 //gamerGuy selection Btn
                 if(screenX >= gamerGuyBtnX && screenX <= gamerGuyBtnX+gamerGuyBtnW &&
                     fixedY >= gamerGuyBtnY && fixedY <= gamerGuyBtnY+gamerGuyBtnH) {
-                    System.out.println("You are a Gamer god!");
-                    game.setScreen(new Level1(game));
+                    game.setScreen(new GameLogic(game, "gamerGuy"));
                     return true;
                 }
 
                 //Mage selection btn
                 if(screenX >= classicMageBtnX && screenX <= classicMageBtnX+classicMageBtnW &&
                     fixedY >= classicMageBtnY && fixedY <= classicMageBtnY+classicMageBtnH) {
-                    System.out.println("You are a classic mage!");
-                    game.setScreen(new Level1(game));
+                    game.setScreen(new GameLogic(game, "classicMage"));
                     return true;
                 }
                 return true;
@@ -114,7 +110,6 @@ public class characterSelection implements Screen {
 
         batch.begin();
 
-        // *** THIS MAKES BACKGROUND ALWAYS FIT SCREEN ***
         batch.setColor(1,1,1,0.5f);
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setColor(1,1,1,1);

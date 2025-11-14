@@ -81,7 +81,7 @@ public class MainScreen implements Screen {
 
         batch.begin();
 
-        // *** THIS MAKES BACKGROUND ALWAYS FIT SCREEN ***
+
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(title,     titleX,     titleY,     titleW,     titleH);
         batch.draw(mage,      mageX,      mageY,      mageW,      mageH);

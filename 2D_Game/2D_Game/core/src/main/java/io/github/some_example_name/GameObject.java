@@ -35,10 +35,11 @@ public abstract class GameObject {
         if (texture != null) texture.dispose();
     }
 
-    public int getPosX() { return posX; }
-    public int getPosY() { return posY; }
+    public int getX() { return posX; }
+    public int getY() { return posY; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+    public Texture getTexture() { return texture; }
 
     public void setVelocity(int vx, int vy) {
         this.velocityX = vx;
