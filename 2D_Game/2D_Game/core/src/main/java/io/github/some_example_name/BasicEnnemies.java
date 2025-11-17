@@ -1,11 +1,13 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.Gdx;
+
 public class BasicEnnemies extends Ennemies{
 
     public boolean movingLeft = true;
 
     public BasicEnnemies() {
-        super("BasicEnnemies.png", 1100, 25, 64, 64, 100, 10, "BasicEnnemies");
+        super("BasicEnnemies.png", 0, 0, 80, 80, 100, 32, 32, 0.01f, "BasicEnnemies");
     }
 
     int speed = 162;
@@ -25,6 +27,13 @@ public class BasicEnnemies extends Ennemies{
             basicMvtRight();
         }
         super.update(delta);
+
+        if(this.posX == 0){
+            movingLeft = false;
+        }
+        else if(this.posX + this.width == 1280){
+            movingLeft = true;
+        }
     }
 
 }

@@ -77,7 +77,7 @@ public class characterSelection implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter(){
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                int fixedY = Gdx.graphics.getHeight() - screenY;
+                int fixedY = 720 - screenY;
 
                 // BFSMg selection btn
                 if(screenX >= bfsmgBtnX && screenX <= bfsmgBtnX+bfsmgBtnW &&

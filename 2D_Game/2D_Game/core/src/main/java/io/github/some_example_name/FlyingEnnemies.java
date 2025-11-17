@@ -1,7 +1,51 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.Gdx;
+
 public class FlyingEnnemies extends Ennemies {
+
+    public boolean movingDown = true;
+    public boolean movingLeft = true;
+
     public FlyingEnnemies() {
-        super("FlyingEnnemies.png", 250, 400, 64, 64, 100, 10, "FlyingEnnemies");
+        super("FlyingEnnemies.png", 250, 400, 80, 80, 100, 32, 32, 0.1f, "FlyingEnnemies");
     }
+
+    int speed = 162;
+    public void firstMvtDown(){
+        setVelocity(-150, -speed);
+    }
+    public void firstMvtUp(){
+        setVelocity(150, speed);
+    }
+    public void secondMvtdown(){setVelocity(200, -speed);}
+    public void secondMvtUp(){setVelocity(-200, -speed);}
+
+    @Override
+    public void update(float delta) {
+        if(movingDown){
+            firstMvtDown();
+        }
+        else{
+            firstMvtUp();
+        }
+
+        super.update(delta);
+
+        if(this.posY == 0){
+            movingDown = false;
+        }
+        else if(this.posY + this.height == Gdx.graphics.getHeight()){
+            movingDown = true;
+        }
+
+        //if(this.posX == 0){
+         //   movingLeft = false  ;
+
+       // }
+       // else if(this.posX + this.width == Gdx.graphics.getWidth()){
+          //  movingLeft = true  ;
+        //}
+    }
+
 }

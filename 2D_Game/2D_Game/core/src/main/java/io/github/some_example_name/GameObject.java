@@ -14,30 +14,46 @@ public abstract class GameObject {
     protected int velocityX;
     protected int velocityY;
     protected Texture texture;
+    protected int floorLevelY = 25;
+    protected int hitboxWidth;
+    protected int hitboxHeight;
+    protected int hitboxOffsetX;
+    protected int hitboxOffsetY;
+    protected boolean hasEnteredScreen = false;
 
-    public GameObject(String texturePath, int posX, int posY, int width, int height) {
+
+
+
+    public GameObject(String texturePath, int posX, int posY, int width, int height, int hitboxWidth, int hitboxHeight) {
         this.texture = new Texture(texturePath);
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
+        this.hitboxWidth = hitboxWidth;
+        this.hitboxHeight = hitboxHeight;
+        this.hitboxOffsetX = (width - hitboxWidth) / 2;
+        this.hitboxOffsetY = (height - hitboxHeight) / 2;
     }
 
     public void update(float delta) {
         posX += (int) (velocityX * delta);
         posY += (int) (velocityY * delta);
         //Clamping
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1280;
+        int screenHeight = 720;
         //right side
-        if (posX + width > screenWidth){
-            posX = screenWidth - width;
+        if (posX + width < screenWidth && posX > 0) {
+            hasEnteredScreen = true;
         }
-        //left side ==>2D physic left is always 0
-        if (posX < 0) posX = 0;
 
-
+        // Only apply clamping/bounce AFTER they entered the screen
+        if (hasEnteredScreen) {
+            if (posX < 0) posX = 0;
+            if (posX + width > screenWidth) posX = screenWidth - width;
+        }
     }
+
 
     public void render(SpriteBatch batch) {
         batch.draw(texture, posX, posY, width, height);
@@ -53,13 +69,19 @@ public abstract class GameObject {
     public int getHeight() { return height; }
     public Texture getTexture() { return texture; }
 
+    public void setPosition(int x, int y) {
+        this.posX = x;
+        this.posY = y;
+    }
+
+
     public void setVelocity(int vx, int vy) {
         this.velocityX = vx;
         this.velocityY = vy;
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(posX, posY, width, height);
+        return new Rectangle(posX + hitboxOffsetX, posY + hitboxOffsetY, hitboxWidth, hitboxHeight);
     }
 
 }

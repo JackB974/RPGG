@@ -81,7 +81,7 @@ public class MainScreen implements Screen {
 
         batch.begin();
 
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(background, 0, 0, 1280, 720);
         batch.draw(title,     titleX,     titleY,     titleW,     titleH);
         batch.draw(mage,      mageX,      mageY,      mageW,      mageH);
         batch.draw(gamerGuy,  gamerGuyX,  gamerGuyY,  gamerGuyW,  gamerGuyH);
