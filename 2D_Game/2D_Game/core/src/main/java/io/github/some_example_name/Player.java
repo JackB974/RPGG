@@ -1,8 +1,13 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+
 public abstract class Player extends Characters {
 
     int speed = 300;
+    float fireRate = 0.1f;
+    float shotCooldown = 0f;
 
     public void moveRight(){
         setVelocity(speed, this.velocityY);
@@ -33,12 +38,18 @@ public abstract class Player extends Characters {
             setVelocity(this.velocityX, this.velocityY -= 10 );
         }
    }
-
-
-
     public Player(String texturePath, int posX, int posY, int width, int height, int hitBoxWidth, int hitBoxHeight, int maxHp, int dmg, String name) {
         super(texturePath, posX, posY, width, height, hitBoxWidth, hitBoxHeight, maxHp, dmg, name);
+
     }
 
+    public boolean shouldShoot(float delta){
+        shotCooldown -= delta;
+        if(shotCooldown <= 0 && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            shotCooldown = fireRate;
+            return true;
 
+        }
+        return false;
+    }
 }

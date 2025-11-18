@@ -38,6 +38,7 @@ public class GameLogic implements Screen{
     float enemyBarHeight = 3;
 
     List<Ennemies> enemies;
+    List<Bullets> bullets;
     int spawnOffset = 0;
 
     public GameLogic(MainGame game, String selectedCharacter){
@@ -55,7 +56,9 @@ public class GameLogic implements Screen{
         hudBackground = new Texture("white_pixel.png");
         basicEnnemyHud = new Texture("white_pixel.png");
         flyingEnnemyHud = new Texture("white_pixel.png");
+
         enemies = new ArrayList<>();
+        bullets = new ArrayList<>();
 
         if (selectedCharacter.equals("bfsmg")) {
             player = new BFSMG();
@@ -90,6 +93,11 @@ public class GameLogic implements Screen{
        }
         player.update(delta);
 
+//        if (player.shouldShoot()) {
+//            // spawn bullet here
+//        }
+
+
         if (enemies.size() == 0) {
             spawnOffset = 0;
         }
@@ -108,7 +116,7 @@ public class GameLogic implements Screen{
         while (it.hasNext()) {
             Ennemies e = it.next();
 
-            e.takeDmg(10 * delta);
+            //e.takeDmg(10 * delta);
             e.update(delta);
             if (checkCollision(player, e)) {
                 player.takeDmg(e.dealDmg() * delta);

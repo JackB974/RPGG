@@ -54,7 +54,7 @@ public abstract class GameObject {
         }
     }
 
-
+    //check this?
     public void render(SpriteBatch batch) {
         batch.draw(texture, posX, posY, width, height);
     }
