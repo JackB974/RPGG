@@ -4,7 +4,7 @@ public class Bullets extends GameObject{
     float directionX;
     float directionY;
     float speed;
-    int dmg;
+    float dmg;
     boolean bulletAlive = true;
 
 
@@ -16,7 +16,7 @@ public class Bullets extends GameObject{
         this.directionX = dx;
         this.directionY = dy;
    }
-    public void setDamage(int dmg){
+    public void setDamage(float dmg){
         this.dmg = dmg;
    }
     public void setSpeed(float speed){

@@ -5,7 +5,7 @@ public class BasicEnnemies extends Ennemies{
     public boolean movingLeft = true;
 
     public BasicEnnemies() {
-        super("BasicEnnemies.png", 0, 0, 80, 80, 100, 32, 32, 1, "BasicEnnemies");
+        super("BasicEnnemies.png", 0, 0, 80, 80, 750, 32, 32, 1, "BasicEnnemies");
     }
 
     int speed = 162;
@@ -26,10 +26,10 @@ public class BasicEnnemies extends Ennemies{
         }
         super.update(delta);
 
-        if(this.posX == 0){
+        if(this.posX <= 0){
             movingLeft = false;
         }
-        else if(this.posX + this.width == 1280){
+        else if(this.posX + this.width >= 1280){
             movingLeft = true;
         }
     }

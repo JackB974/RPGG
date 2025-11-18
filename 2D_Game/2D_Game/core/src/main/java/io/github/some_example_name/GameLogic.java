@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static com.badlogic.gdx.Input.Keys;
 import static io.github.some_example_name.Collision.checkCollision;
+import static java.lang.Math.sqrt;
 
 public class GameLogic implements Screen{
     SpriteBatch batch;
@@ -20,14 +21,15 @@ public class GameLogic implements Screen{
     MainGame game;
     String selectedCharacter;
     Player player;
-    //Ennemies basicEnnemy;
-    //Ennemies flyingEnnemy;
     Ennemies Boss;
     Texture HUD;
     Texture hudBackground;
     Texture basicEnnemyHud;
     Texture flyingEnnemyHud;
     BitmapFont font;
+    float basicSpawntimer;
+    float flyingSpawntimer;
+    boolean gamePaused;
 
     int killCount = 0;
 
@@ -38,8 +40,10 @@ public class GameLogic implements Screen{
     float enemyBarHeight = 3;
 
     List<Ennemies> enemies;
+    List<FlyingEnnemies> flyingEnemies;
     List<Bullets> bullets;
-    int spawnOffset = 0;
+    int basicspawnOffset = 0;
+    int flyingspawnOffset = 0;
 
     public GameLogic(MainGame game, String selectedCharacter){
         this.game = game;
@@ -58,6 +62,7 @@ public class GameLogic implements Screen{
         flyingEnnemyHud = new Texture("white_pixel.png");
 
         enemies = new ArrayList<>();
+        flyingEnemies = new ArrayList<>();
         bullets = new ArrayList<>();
 
         if (selectedCharacter.equals("bfsmg")) {
@@ -70,11 +75,15 @@ public class GameLogic implements Screen{
         else if (selectedCharacter.equals("classicMage")) {
             player = new ClassicMage();
         }
-        //basicEnnemy = new BasicEnnemies();
-        //flyingEnnemy = new FlyingEnnemies();
         Boss = new Boss();
     }
     private void update(float delta) {
+        if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
+            gamePaused = !gamePaused;
+        }
+        else if(gamePaused) {
+            return;
+        }
         if(Gdx.input.isKeyPressed(Keys.D)){
             player.moveRight();
         }
@@ -92,65 +101,113 @@ public class GameLogic implements Screen{
            player.fall(delta);
        }
         player.update(delta);
+       basicSpawntimer += delta;
+       flyingSpawntimer += delta;
 
-//        if (player.shouldShoot()) {
-//            // spawn bullet here
-//        }
+        if (player.shouldShoot(delta)) {
+            int playercenterX = player.getX() + player.getWidth() / 2;
+            int playercenterY = player.getY() + player.getHeight() / 2;
 
+            float mouseX = Gdx.input.getX();
+            float mouseY = 720 - Gdx.input.getY(); // flip Y (because inversed in libGDX)
 
-        if (enemies.size() == 0) {
-            spawnOffset = 0;
+            float dx = mouseX - playercenterX;
+            float dy = mouseY - playercenterY;
+
+            float len = (float) sqrt(dx * dx + dy * dy);
+
+            float dX = dx / len;
+            float dY = dy / len;
+
+            Bullets bullet = new Bullets("bullet.png", playercenterX, playercenterY, 16, 16, 8, 8);
+            bullet.setDirection(dX, dY);
+            bullet.setSpeed(2000f);
+            bullet.setDamage(player.dealDmg());
+            bullets.add(bullet);
         }
-
-
-        if (enemies.size() < 5){
+        Iterator<Bullets> bulletIterator = bullets.iterator();
+        while (bulletIterator.hasNext()) {
+            Bullets b = bulletIterator.next();
+            b.update(delta);
+            for(Ennemies ennemy : enemies){
+                if (checkCollision(b, ennemy)) {
+                    ennemy.takeDmg(player.dealDmg());
+                    b.bulletAlive = false;
+                }
+            }
+            for(FlyingEnnemies flying : flyingEnemies){
+                if (checkCollision(b, flying)) {
+                    flying.takeDmg(player.dealDmg());
+                    b.bulletAlive = false;
+                }
+            }
+            if (!b.bulletAlive) {
+                bulletIterator.remove();
+                }
+            }
+        if (enemies.size() == 0) {
+            basicspawnOffset = 0;
+        }
+        if (basicSpawntimer >= 1f) {
             Ennemies e = new BasicEnnemies();
-            int spawnX = 1280 +  spawnOffset;
+            int spawnX = 1280 +  basicspawnOffset;
             int spawnY =  25;
+            basicSpawntimer = 0;
             e.setPosition(spawnX, spawnY);
             enemies.add(e);
-            spawnOffset += 150;
+            basicspawnOffset += 100;
        }
         Iterator<Ennemies> it = enemies.iterator();
 
         while (it.hasNext()) {
             Ennemies e = it.next();
-
+            // ==> dmg test
             //e.takeDmg(10 * delta);
             e.update(delta);
             if (checkCollision(player, e)) {
                 player.takeDmg(e.dealDmg() * delta);
                 System.out.println("Player HP: " + player.getHp());
             }
-
             if (e.getHp() <= 0) {
                 it.remove();
                 killCount++;
             }
         }
+        if (flyingEnemies.size() == 0) {
+            flyingspawnOffset = 0;
+        }
+        if(killCount > 5){
+            if (flyingSpawntimer >= 1f) {
+                FlyingEnnemies f = new FlyingEnnemies();
+                int spawnX = flyingspawnOffset;
+                int spawnY =  720- f.getHeight() - 10;
+                flyingSpawntimer = 0;
+                f.setPosition(spawnX, spawnY);
+                flyingEnemies.add(f);
+                flyingspawnOffset += 100;
+            }
+            Iterator<FlyingEnnemies> ti = flyingEnemies.iterator();
 
-        //basicEnnemy.update(delta);
-        //flyingEnnemy.update(delta);
+            while (ti.hasNext()) {
+                FlyingEnnemies f = ti.next();
+                f.update(delta);
+                if (checkCollision(player, f)) {
+                    player.takeDmg(f.dealDmg() * delta);
+                    System.out.println("Player HP: " + player.getHp());
+                }
 
-//        if(checkCollision(player, basicEnnemy ) || checkCollision(player, flyingEnnemy) ){
-//            //to do: use delta
-//            player.takeDmg(basicEnnemy.dealDmg());
-//            System.out.println(player.getHp());
-//        }
-
+                if (f.getHp() <= 0) {
+                    ti.remove();
+                    killCount++;
+                    }
+            }
+        }
     }
-
     @Override
     public void render(float delta) {
         update(delta);
         float hpPercent = player.getHp() / player.getMaxHp();
         float currentHpWidth = hpBarMaxWidth * hpPercent;
-
-        //float basicEnnemyHpPercent = basicEnnemy.getHp() / basicEnnemy.getMaxHp();
-        //float basicennemycurrentHpWidth = enemyBarMaxWidth * basicEnnemyHpPercent;
-
-        //float flyingEnnemyHpPercent = flyingEnnemy.getHp() / flyingEnnemy.getMaxHp();
-        //float flyingEnnemyCurrentHpWidth = enemyBarMaxWidth * flyingEnnemyHpPercent;
 
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -163,15 +220,14 @@ public class GameLogic implements Screen{
         batch.setColor(1, 0, 0, 1 );
         batch.draw(HUD, 20, 680, currentHpWidth, hpBarHeight );
         batch.setColor(1, 1, 1, 1 );
+        font.getData().setScale(2f);
         font.draw(batch, "Kills: " + killCount, 20, 580);
+        font.getData().setScale(1f);
 
-//        batch.setColor(1, 0, 0, 1 );
-//        batch.draw(basicEnnemyHud, basicEnnemy.getX() + (basicEnnemy.getWidth() - enemyBarMaxWidth) / 2,  basicEnnemy.getY() + (basicEnnemy.getHeight() + 5), basicennemycurrentHpWidth, enemyBarHeight );
-//        batch.setColor(1, 1, 1, 1 );
-//        batch.setColor(1, 0, 0, 1 );
-//        batch.draw(flyingEnnemyHud, flyingEnnemy.getX() + (flyingEnnemy.getWidth() - enemyBarMaxWidth) / 2,  flyingEnnemy.getY() + (flyingEnnemy.getHeight() + 5), flyingEnnemyCurrentHpWidth, enemyBarHeight );
-//        batch.setColor(1, 1, 1, 1 );
         batch.draw(player.getTexture(), player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        for (Bullets bullet : bullets) {
+            batch.draw(bullet.getTexture(), bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight());
+        }
         for (Ennemies e : enemies) {
             batch.draw(e.getTexture(), e.getX(), e.getY(), e.getWidth(), e.getHeight());
             float ennemyhpPercent = e.getHp() / e.getMaxHp();
@@ -192,18 +248,31 @@ public class GameLogic implements Screen{
                 hpWidth,
                 enemyBarHeight
             );
-
             batch.setColor(1, 1, 1, 1); // reset color!
-        }
 
-//        batch.draw(basicEnnemy.getTexture(), basicEnnemy.getX(), basicEnnemy.getY(), basicEnnemy.getWidth(), basicEnnemy.getHeight());
-//        batch.draw(flyingEnnemy.getTexture(), flyingEnnemy.getX(), flyingEnnemy.getY(), flyingEnnemy.getWidth(), flyingEnnemy.getHeight());
-//        //batch.draw(Boss.getTexture(), Boss.getX(), Boss.getY(), Boss.getWidth(), Boss.getHeight());
+        }
+        for(FlyingEnnemies f : flyingEnemies){
+            batch.draw(f.getTexture(), f.getX(), f.getY(), f.getWidth(), f.getHeight());
+            float flyinghpPercent = f.getHp() / f.getMaxHp();
+            float flyinghpWidth = enemyBarMaxWidth * flyinghpPercent;
+            batch.setColor(0.2f, 0.2f, 0.2f, 1);
+            batch.draw(flyingEnnemyHud,
+                f.getX() + (f.getWidth() - enemyBarMaxWidth) / 2,
+                f.getY() + f.getHeight() + 5,
+                enemyBarMaxWidth,
+                enemyBarHeight
+            );
+            batch.setColor(1, 0, 0, 1);
+            batch.draw(flyingEnnemyHud,
+                f.getX() + (f.getWidth() - enemyBarMaxWidth) / 2,
+                f.getY() + f.getHeight() + 5,
+                flyinghpWidth,
+                enemyBarHeight
+            );
+            batch.setColor(1, 1, 1, 1);
+        }
         batch.end();
     }
-
-
-
     @Override
     public void resize(int width,int height) {}
     @Override
@@ -215,9 +284,7 @@ public class GameLogic implements Screen{
     @Override
     public void dispose() {
         batch.dispose();
-
     }
-
 }
 
 

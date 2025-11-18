@@ -8,7 +8,7 @@ public class FlyingEnnemies extends Ennemies {
     public boolean movingLeft = true;
 
     public FlyingEnnemies() {
-        super("FlyingEnnemies.png", 250, 400, 80, 80, 100, 32, 32, 0.1f, "FlyingEnnemies");
+        super("FlyingEnnemies.png", 0, 0, 80, 80, 100, 32, 32, 0.1f, "FlyingEnnemies");
     }
 
     int speed = 162;
@@ -32,20 +32,26 @@ public class FlyingEnnemies extends Ennemies {
 
         super.update(delta);
 
-        if(this.posY == 0){
+        if(this.posY <= 0){
             movingDown = false;
         }
-        else if(this.posY + this.height == Gdx.graphics.getHeight()){
+        else if(this.posY + this.height >= 720){
             movingDown = true;
         }
 
-        //if(this.posX == 0){
-         //   movingLeft = false  ;
+        if(this.posX <= 0){
+            movingLeft = false  ;
+        }
 
-       // }
-       // else if(this.posX + this.width == Gdx.graphics.getWidth()){
-          //  movingLeft = true  ;
-        //}
+
+        else if(this.posX + this.width >= 1280){
+            movingLeft = true  ;
+        }
+        if (movingLeft) {
+            this.velocityX = -Math.abs(this.velocityX);
+        } else {
+            this.velocityX = Math.abs(this.velocityX);
+        }
     }
 
 }
