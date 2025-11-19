@@ -8,7 +8,7 @@ public class Boss extends Ennemies{
     float shootCooldown = 1f;
 
     public Boss() {
-        super("Boss.png", 0, 0, 200, 160, 2500, 200, 160, 250, "Boss");
+        super("Boss.png", 0, 0, 200, 160, 2000, 200, 160, 250, "Boss");
     }
     @Override
     public void update(float delta) {
