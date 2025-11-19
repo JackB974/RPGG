@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class characterSelection implements Screen {
@@ -16,43 +17,44 @@ public class characterSelection implements Screen {
     Texture bfsmgBtn;
     Texture classicMageBtn;
     Texture gamerGuyBtn;
+    BitmapFont font;
 
 
     // mage btn
     int classicMageBtnX = 50;
     int classicMageBtnY = 75;
-    int classicMageBtnW = 500;
-    int classicMageBtnH = 300;
+    int classicMageBtnW = 250;
+    int classicMageBtnH = 150;
 
     // mage
     int mageX = 50;
     int mageY = 75;
-    int mageW = 500;
-    int mageH = 300;
+    int mageW = 250;
+    int mageH = 150;
 
     // gamerGuy btn
     int gamerGuyBtnX = 500;
-    int gamerGuyBtnY = 60;
-    int gamerGuyBtnW = 500;
-    int gamerGuyBtnH = 300;
+    int gamerGuyBtnY = 75;
+    int gamerGuyBtnW = 250;
+    int gamerGuyBtnH = 150;
 
     // gamerGuy
     int gamerGuyX = 500;
-    int gamerGuyY = 60;
-    int gamerGuyW = 500;
-    int gamerGuyH = 300;
+    int gamerGuyY = 75;
+    int gamerGuyW = 250;
+    int gamerGuyH = 150;
 
     // bfsmg btn
     int bfsmgBtnX = 900;
     int bfsmgBtnY = 75;
-    int bfsmgBtnW = 500;
-    int bfsmgBtnH = 300;
+    int bfsmgBtnW = 250;
+    int bfsmgBtnH = 150;
 
     // bfsmg
     int bfsmgX = 900;
     int bfsmgY = 75;
-    int bfsmgW = 500;
-    int bfsmgH = 300;
+    int bfsmgW = 250;
+    int bfsmgH = 150;
 
 
     MainGame game;
@@ -65,6 +67,7 @@ public class characterSelection implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
+        font = new BitmapFont();
         background = new Texture("characterSelectionBack.png");
         classicMageBtn = new Texture("characterSelectionBtn1.png");
         mage = new Texture("mage.png");
@@ -112,7 +115,7 @@ public class characterSelection implements Screen {
         batch.begin();
 
         batch.setColor(1,1,1,0.5f);
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(background, 0, 0, 1280, 720);
         batch.setColor(1,1,1,1);
         batch.draw(mage,      mageX,      mageY,      mageW,      mageH);
         batch.draw(gamerGuy,  gamerGuyX,  gamerGuyY,  gamerGuyW,  gamerGuyH);
@@ -123,6 +126,38 @@ public class characterSelection implements Screen {
         batch.draw(bfsmgBtn,   bfsmgBtnX,       bfsmgBtnY,       bfsmgBtnW,       bfsmgBtnH);
         //goback to normal color
         batch.setColor(1,1,1,1);
+
+        font.getData().setScale(2f);
+        font.draw(batch, "Press ESC to Pause" , 20, 700);
+        font.getData().setScale(1f);
+        font.getData().setScale(2f);
+        font.draw(batch, "Flying Enemies kill points: 1" , 20, 600);
+        font.getData().setScale(1f);
+        font.getData().setScale(2f);
+        font.draw(batch, "Walking Enemies kill points: 2" , 20, 500);
+        font.getData().setScale(1f);
+        font.getData().setScale(2f);
+        font.draw(batch, "Click on your hero!" , 640, 500);
+        font.getData().setScale(1f);
+
+        font.draw(batch, "Classic Mage! " , 50, 400);
+
+        font.draw(batch, "Attack: 50 " , 50, 350);
+
+        font.draw(batch, "Hp: 35 " , 50, 300);
+
+        font.draw(batch, "Gamer Guy! " , 500, 400);
+
+        font.draw(batch, "Attack: 40" , 500, 350);
+
+        font.draw(batch, "Hp: 42 " , 500, 300);
+
+        font.draw(batch, "Big Fucking Space Marine Guy! " , 900, 400);
+
+        font.draw(batch, "Attack: 40 " , 900, 350);
+
+        font.draw(batch, "Hp: 50 " , 900, 300);
+
 
         batch.end();
     }

@@ -8,10 +8,10 @@ public class FlyingEnnemies extends Ennemies {
     public boolean movingLeft = true;
 
     public FlyingEnnemies() {
-        super("FlyingEnnemies.png", 0, 0, 80, 80, 100, 32, 32, 0.1f, "FlyingEnnemies");
+        super("FlyingEnnemies.png", 0, 0, 80, 80, 550, 32, 32, 5, "FlyingEnnemies");
     }
 
-    int speed = 162;
+    int speed = 225;
     public void firstMvtDown(){
         setVelocity(-150, -speed);
     }

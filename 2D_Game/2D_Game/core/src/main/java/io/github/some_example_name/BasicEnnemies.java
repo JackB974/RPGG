@@ -5,7 +5,7 @@ public class BasicEnnemies extends Ennemies{
     public boolean movingLeft = true;
 
     public BasicEnnemies() {
-        super("BasicEnnemies.png", 0, 0, 80, 80, 750, 32, 32, 1, "BasicEnnemies");
+        super("BasicEnnemies.png", 0, 0, 80, 80, 750, 32, 32, 5, "BasicEnnemies");
     }
 
     int speed = 162;
