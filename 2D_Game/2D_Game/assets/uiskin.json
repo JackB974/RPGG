@@ -1,0 +1,48 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "default-font": { "file": "default.fnt" }
+  },
+
+  "Color": {
+    "white": { "r": 1, "g": 1, "b": 1, "a": 1 },
+    "gray": { "r": 0.8, "g": 0.8, "b": 0.8, "a": 1 },
+    "black": { "r": 0, "g": 0, "b": 0, "a": 1 },
+    "red": { "r": 1, "g": 0, "b": 0, "a": 1 },
+    "green": { "r": 0, "g": 1, "b": 0, "a": 1 }
+  },
+  "TintedDrawable": {},
+  "LabelStyle": {
+    "default": { "font": "default-font", "fontColor": "white" }
+  },
+  "ButtonStyle": {
+    "default": { "up": "default-round", "down": "default-round-down" }
+  },
+  "TextButtonStyle": {
+    "default": { "up": "default-round", "down": "default-round-down", "font": "default-font", "fontColor": "white" }
+  },
+  "TextFieldStyle": {
+    "default": { "background": "textfield", "cursor": "cursor", "selection": "selection", "font": "default-font", "fontColor": "white" }
+  },
+  "ListStyle": {
+    "default": { "font": "default-font", "fontColorUnselected": "white", "fontColorSelected": "white", "selection": "selection" }
+  },
+  "ScrollPaneStyle": {
+    "default": { "background": "default-rect", "vScroll": "default-scroll", "vScrollKnob": "default-round-large", "hScroll": "default-scroll", "hScrollKnob": "default-round-large" }
+  },
+  "SelectBoxStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "white",
+      "background": "default-select",
+      "scrollStyle": "default",
+      "listStyle": "default"
+    }
+  },
+  "SplitPaneStyle": {
+    "default-vertical": { "handle": "default-splitpane-vertical" },
+    "default-horizontal": { "handle": "default-splitpane" }
+  },
+  "WindowStyle": {
+    "default": { "titleFont": "default-font", "background": "default-window", "titleFontColor": "white" }
+  }
+}

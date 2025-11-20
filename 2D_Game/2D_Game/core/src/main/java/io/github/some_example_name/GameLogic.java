@@ -6,7 +6,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 import java.util.Iterator;
@@ -55,6 +64,12 @@ public class GameLogic implements Screen {
 
     MusicManager musicManager;
 
+    Stage pauseStage;
+    Skin pauseSkin;
+    Table pauseTable;
+
+
+
     public GameLogic(MainGame game, String selectedCharacter) {
         this.game = game;
         this.selectedCharacter = selectedCharacter;
@@ -72,6 +87,8 @@ public class GameLogic implements Screen {
         flyingEnnemyHud = new Texture("white_pixel.png");
         bossHud = new Texture("white_pixel.png");
         musicManager = new MusicManager();
+
+
 
         musicManager.play("spaceship.wav", 0.4f, true);
 
@@ -102,10 +119,44 @@ public class GameLogic implements Screen {
 
     private void update(float delta) {
         if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-            gamePaused = !gamePaused;
-        } else if (gamePaused) {
-            return;
+            gamePaused = true;
+            pauseSkin = new Skin(Gdx.files.internal("uiskin.json"), new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
+
+            pauseStage = new Stage(new ScreenViewport());
+            pauseTable = new Table();
+            pauseTable.setFillParent(true);
+            pauseStage.addActor(pauseTable);
+            Gdx.input.setInputProcessor(pauseStage);
+
+            TextButton resumeButton = new TextButton("Resume", pauseSkin);
+            TextButton characterSelectionButton = new TextButton("Character Selection Menu", pauseSkin);
+            TextButton exitButton = new TextButton("Exit Game", pauseSkin);
+            pauseTable.add(resumeButton).width(200).pad(20);
+            pauseTable.row();
+            pauseTable.add(characterSelectionButton).width(200).pad(20);
+            pauseTable.row();
+            pauseTable.add(exitButton).width(200).pad(20);
+            resumeButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    gamePaused =false;}
+            });
+            characterSelectionButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new characterSelection(game));}
+            });
+            exitButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.app.exit();
+                }
+            });
+
+
         }
+
+
         if (Gdx.input.isKeyPressed(Keys.D)) {
             player.moveRight();
         } else if (Gdx.input.isKeyPressed(Keys.A)) {
@@ -231,7 +282,8 @@ public class GameLogic implements Screen {
             }
             if (player.getHp() <= 0) {
                 //player.isDead = true;
-                game.setScreen(new GameOverScreen(game));
+                int score= killCount + (BosskillCount * 4);
+                game.setScreen(new GameOverScreen(game, score));
                 return;
 
             }
@@ -308,6 +360,11 @@ public class GameLogic implements Screen {
         @Override
         public void render ( float delta){
             update(delta);
+            if (gamePaused) {
+                pauseStage.act(delta);
+                pauseStage.draw();
+                return;
+            }
             float hpPercent = player.getHp() / player.getMaxHp();
             float currentHpWidth = hpBarMaxWidth * hpPercent;
 
