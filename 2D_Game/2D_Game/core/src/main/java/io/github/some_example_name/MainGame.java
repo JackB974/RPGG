@@ -23,6 +23,7 @@ public class MainGame extends Game {
         }
         else{
             scoreFileHandle = Gdx.files.internal("Highscore.json");
+
         }
         String textScore = scoreFileHandle.readString();
         highScores = json.fromJson(ArrayList.class, HighScore.class, textScore);

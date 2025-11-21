@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class characterSelection implements Screen {
     SpriteBatch batch;
@@ -18,6 +19,7 @@ public class characterSelection implements Screen {
     Texture classicMageBtn;
     Texture gamerGuyBtn;
     BitmapFont font;
+    ShapeRenderer shapeRenderer;
 
 
     // mage btn
@@ -75,6 +77,7 @@ public class characterSelection implements Screen {
         gamerGuy = new Texture("gamerGuy.png");
         bfsmg = new Texture("bfsmg.png");
         bfsmgBtn = new Texture("characterSelectionBtn1.png");
+        shapeRenderer = new ShapeRenderer();
 
 
         Gdx.input.setInputProcessor(new InputAdapter(){
@@ -121,39 +124,72 @@ public class characterSelection implements Screen {
         batch.draw(gamerGuy,  gamerGuyX,  gamerGuyY,  gamerGuyW,  gamerGuyH);
         batch.draw(bfsmg,     bfsmgX,     bfsmgY,     bfsmgW,     bfsmgH);
 
+        batch.end();
+
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        shapeRenderer.setColor(1, 0, 0, 1); // Red rectangles
+
+        // mage
+        shapeRenderer.rect(classicMageBtnX, classicMageBtnY, classicMageBtnW, classicMageBtnH);
+
+        // gamer guy
+        shapeRenderer.rect(gamerGuyBtnX, gamerGuyBtnY, gamerGuyBtnW, gamerGuyBtnH);
+
+        // bfsmg
+        shapeRenderer.rect(bfsmgBtnX, bfsmgBtnY, bfsmgBtnW, bfsmgBtnH);
+
+        shapeRenderer.end();
+
+        batch.begin();
         //transparentbtn
         batch.setColor(0,0,0,0);
         batch.draw(bfsmgBtn,   bfsmgBtnX,       bfsmgBtnY,       bfsmgBtnW,       bfsmgBtnH);
         //goback to normal color
         batch.setColor(1,1,1,1);
 
+        font.setColor(1, 0, 0, 1);
         font.getData().setScale(2f);
         font.draw(batch, "Press ESC to Pause" , 20, 700);
         font.getData().setScale(1f);
         font.getData().setScale(2f);
-        font.draw(batch, "Flying Enemies kill points: 1" , 20, 600);
+        font.draw(batch, "Flying Enemies kill points: 1" , 20, 650);
         font.getData().setScale(1f);
         font.getData().setScale(2f);
-        font.draw(batch, "Walking Enemies kill points: 2" , 20, 500);
+        font.draw(batch, "Walking Enemies kill points: 2" , 20, 600);
         font.getData().setScale(1f);
         font.getData().setScale(2f);
-        font.draw(batch, "Click on your hero!" , 640, 500);
+        font.draw(batch, "Press Q to go left / Press D to go right" , 700, 700);
         font.getData().setScale(1f);
+        font.getData().setScale(2f);
+        font.draw(batch, "SPACE to Jump" , 700, 650);
+        font.getData().setScale(1f);
+        font.getData().setScale(2f);
+        font.draw(batch, "Mouse to aim / MOUSE LEFT CLick to Shoot" , 700, 600);
+        font.getData().setScale(1f);
+        font.getData().setScale(3f);
+        font.draw(batch, "Click on your hero (red box)!" , 450, 500);
+        font.getData().setScale(1f);
+        font.setColor(1, 1, 1, 1);
 
+        font.getData().setScale(2f);
         font.draw(batch, "Classic Mage! " , 50, 400);
+        font.getData().setScale(1f);
 
-        font.draw(batch, "Attack: 50 " , 50, 350);
+        font.draw(batch, "Attack: 50 " , 100, 350);
 
-        font.draw(batch, "Hp: 35 " , 50, 300);
-
+        font.draw(batch, "Hp: 35 " , 100, 300);
+        font.getData().setScale(2f);
         font.draw(batch, "Gamer Guy! " , 500, 400);
-
+        font.getData().setScale(1f);
         font.draw(batch, "Attack: 40" , 500, 350);
 
         font.draw(batch, "Hp: 42 " , 500, 300);
-
-        font.draw(batch, "Big Fucking Space Marine Guy! " , 900, 400);
-
+        font.getData().setScale(2f);
+        font.draw(batch, "Big Fucking Space Marine Guy! " , 800, 400);
+        font.getData().setScale(1f);
         font.draw(batch, "Attack: 40 " , 900, 350);
 
         font.draw(batch, "Hp: 50 " , 900, 300);
